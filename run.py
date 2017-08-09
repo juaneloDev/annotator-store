@@ -67,7 +67,7 @@ def main(argv):
             annotation.Annotation.create_all()
             document.Document.create_all()
         except elasticsearch.exceptions.RequestError as e:
-            if e.error.startswith('MergeMappingException'):
+            if e.error:
                 date = time.strftime('%Y-%m-%d')
                 log.fatal("Elasticsearch index mapping is incorrect! Please "
                           "reindex it. You can use reindex.py for this, e.g. "
