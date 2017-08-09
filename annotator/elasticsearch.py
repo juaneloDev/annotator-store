@@ -99,13 +99,9 @@ class _Model(dict):
     def get_mapping(cls):
         return {
             cls.__type__: {
-                '_id': {
-                    'path': 'id',
-                },
                 '_source': {
                     'excludes': ['id'],
                 },
-                'analyzer': 'keyword',
                 'properties': cls.__mapping__,
             }
         }
