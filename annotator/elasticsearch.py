@@ -12,6 +12,7 @@ from six.moves.urllib.parse import urlparse
 log = logging.getLogger(__name__)
 
 # If limit changed, must also change:
+# index.max_result_window in /etc/elasticsearch/elasticsearch.yml
 # $flask_limit in annotonia-converter/config.rb
 # $flask_results in annotonia-status/env/config.php
 RESULTS_MAX_SIZE = 10000
