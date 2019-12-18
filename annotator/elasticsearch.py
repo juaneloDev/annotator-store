@@ -1,11 +1,10 @@
 from __future__ import absolute_import
 
-import logging
 import datetime
-
-import iso8601
-
 import elasticsearch
+import iso8601
+import logging
+import os
 from six import iteritems
 from six.moves.urllib.parse import urlparse
 
@@ -91,13 +90,27 @@ class _Model(dict):
 
     @classmethod
     def create_all(cls):
-        log.info("Creating index '%s'.", cls.es.index)
-        conn = cls.es.conn
-        conn.indices.create(cls.es.index, ignore=400)
-        mapping = cls.get_mapping()
-        conn.indices.put_mapping(index=cls.es.index,
-                                 doc_type=cls.__type__,
-                                 body=mapping)
+        # Use 'index-created' file presence to toggle posting index to ES
+        cwd = os.path.dirname(__file__)
+        index_present_file = os.path.join(cwd, 'index-created')
+
+        if os.path.exists(index_present_file):
+            log.info("Elasticsearch index '%s' already present", cls.es.index)
+        else:
+            log.info("Creating index '%s'.", cls.es.index)
+            conn = cls.es.conn
+            conn.indices.create(cls.es.index, ignore=400)
+            mapping = cls.get_mapping()
+            conn.indices.put_mapping(index=cls.es.index,
+                                     doc_type=cls.__type__,
+                                     body=mapping)
+
+            # Touch index_present_file, set access/mod time to current time
+            fhandle = open(index_present_file, 'a')
+            try:
+                os.utime(index_present_file, None)
+            finally:
+                fhandle.close()
 
     @classmethod
     def get_mapping(cls):

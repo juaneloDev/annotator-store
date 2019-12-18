@@ -5,3 +5,8 @@
 /dist
 /.tox
 *.pyc
+
+# Elasticsearch index presence indicator file
+# See annotator/elasticsearch.py
+annotator/index-created
+
