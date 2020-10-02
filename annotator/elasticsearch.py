@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 # $flask_limit in annotonia-converter/config.rb
 # $flask_results in annotonia-status/env/config.php
 RESULTS_MAX_SIZE = 10000
-RESULTS_DEFAULT_SIZE = 20
+RESULTS_DEFAULT_SIZE = 250
 
 
 class ElasticSearch(object):
