@@ -27,9 +27,11 @@ from six import iteritems
 from annotator.atoi import atoi
 from annotator.annotation import Annotation
 from annotator.elasticsearch import RESULTS_MAX_SIZE
+from flask_cors import CORS, cross_origin
 
 store = Blueprint('store', __name__)
 
+cors = CORS(store)
 CREATE_FILTER_FIELDS = ('updated', 'created', 'consumer', 'id')
 UPDATE_FILTER_FIELDS = ('updated', 'created', 'user', 'consumer')
 
