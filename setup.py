@@ -2,10 +2,14 @@ from setuptools import setup, find_packages
 import os
 
 requires = [
-    'elasticsearch>=1.0,<2',
-    'PyJWT>=0.1.4',
-    'iso8601>=0.1.4',
-    'six',
+    'elasticsearch==2.4.0',
+    'PyJWT==2.4.0',
+    'iso8601==1.0.2',
+    'six==1.16.0',
+    'itsdangerous==1.1.0',
+    'markupsafe==1.1.1',
+    'flask-cors==3.0.10',
+    'werkzeug==0.16.1',
 ]
 
 def read(*paths):
@@ -21,8 +25,8 @@ setup(
     install_requires = requires,
     extras_require = {
         'docs': ['Sphinx'],
-        'testing': ['Flask>=0.9,<2', 'mock', 'nose', 'coverage'],
-        'flask': ['Flask>=0.9,<2'],
+        'testing': ['Flask==1.1.4', 'mock', 'nose', 'coverage'],
+        'flask': ['Flask==1.1.4'],
     },
 
     # metadata for upload to PyPI

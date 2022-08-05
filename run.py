@@ -23,6 +23,7 @@ import elasticsearch
 from annotator import es, annotation, auth, authz, document, store
 from tests.helpers import MockUser, MockConsumer, MockAuthenticator
 from tests.helpers import mock_authorizer
+from flask_cors import CORS
 
 logging.basicConfig(format='%(asctime)s %(process)d %(name)s [%(levelname)s] '
                            '%(message)s',
@@ -37,6 +38,7 @@ here = os.path.dirname(__file__)
 
 def main(argv):
     app = Flask(__name__)
+    cors=CORS(app)
 
     cfg_file = 'annotator.cfg'
     if len(argv) == 2:
@@ -61,6 +63,9 @@ def main(argv):
 
     if app.config.get('AUTHZ_ON') is not None:
         es.authorization_enabled = app.config['AUTHZ_ON']
+
+
+
 
     with app.test_request_context():
         try:
@@ -108,7 +113,10 @@ def main(argv):
 
     host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))
-    app.run(host=host, port=port)
+
+
+    app.run(host=host, port=port, ssl_context=('data/certs/public.crt', 'data/certs/private.key'))
+
 
 if __name__ == '__main__':
     main(sys.argv)
